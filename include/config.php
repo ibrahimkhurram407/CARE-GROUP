@@ -1,9 +1,5 @@
 <?php
-define('DB_SERVER','172.31.50.253');
-define('DB_USER','kali-server');
-define('DB_PASS' ,'Kali User 407');
-define('DB_NAME', 'hms');
-$con = mysqli_connect(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
+$con=mysqli_connect("5.tcp.eu.ngrok.io","kali-server","Kali User 407","myhmsdb", "16820");
 // Check connection
 if (mysqli_connect_errno())
 {

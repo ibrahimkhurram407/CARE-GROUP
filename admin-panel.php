@@ -2,7 +2,7 @@
 <?php 
 include('func.php');  
 include('newfunc.php');
-$con=mysqli_connect("localhost","root","","myhmsdb");
+include('./include/config.php');
 
 
   $pid = $_SESSION['pid'];
@@ -15,75 +15,54 @@ $con=mysqli_connect("localhost","root","","myhmsdb");
 
 
 
-if(isset($_POST['app-submit']))
-{
-  $pid = $_SESSION['pid'];
-  $username = $_SESSION['username'];
-  $email = $_SESSION['email'];
-  $fname = $_SESSION['fname'];
-  $lname = $_SESSION['lname'];
-  $gender = $_SESSION['gender'];
-  $contact = $_SESSION['contact'];
-  $doctor=$_POST['doctor'];
-  $email=$_SESSION['email'];
-  # $fees=$_POST['fees'];
-  $docFees=$_POST['docFees'];
+  if (isset($_POST['app-submit'])) {
+    $pid = $_SESSION['pid'];
+    $username = $_SESSION['username'];
+    $email = $_SESSION['email'];
+    $fname = $_SESSION['fname'];
+    $lname = $_SESSION['lname'];
+    $gender = $_SESSION['gender'];
+    $contact = $_SESSION['contact'];
+    $doctor = $_POST['doctor'];
+    $email = $_SESSION['email'];
+    # $fees=$_POST['fees'];
+    $docFees = $_POST['docFees'];
 
-  $appdate=$_POST['appdate'];
-  $apptime=$_POST['apptime'];
-  $cur_date = date("Y-m-d");
-  date_default_timezone_set('Asia/Kolkata');
-  $cur_time = date("H:i:s");
-  $apptime1 = strtotime($apptime);
-  $appdate1 = strtotime($appdate);
-	
-  if(date("Y-m-d",$appdate1)>=$cur_date){
-    if((date("Y-m-d",$appdate1)==$cur_date and date("H:i:s",$apptime1)>$cur_time) or date("Y-m-d",$appdate1)>$cur_date) {
-      $check_query = mysqli_query($con,"select apptime from appointmenttb where doctor='$doctor' and appdate='$appdate' and apptime='$apptime'");
+    $appdate = $_POST['appdate'];
+    $cur_date = date("Y-m-d");
+    $appdate1 = strtotime($appdate);
 
-        if(mysqli_num_rows($check_query)==0){
-          $query=mysqli_query($con,"insert into appointmenttb(pid,fname,lname,gender,email,contact,doctor,docFees,appdate,apptime,userStatus,doctorStatus) values($pid,'$fname','$lname','$gender','$email','$contact','$doctor','$docFees','$appdate','$apptime','1','1')");
+    if (date("Y-m-d", $appdate1) == $cur_date || date("Y-m-d", $appdate1) > $cur_date) {
+        $check_query = mysqli_query($con, "select ID from appointmenttb where doctor='$doctor' and appdate='$appdate'");
 
-          if($query)
-          {
-            echo "<script>alert('Your appointment successfully booked');</script>";
-          }
-          else{
-            echo "<script>alert('Unable to process your request. Please try again!');</script>";
-          }
-      }
-      else{
-        echo "<script>alert('We are sorry to inform that the doctor is not available in this time or date. Please choose different time or date!');</script>";
-      }
+        if (mysqli_num_rows($check_query) == 0) {
+            $query = mysqli_query($con, "insert into appointmenttb(pid,fname,lname,gender,email,contact,doctor,docFees,appdate,userStatus,doctorStatus) values($pid,'$fname','$lname','$gender','$email','$contact','$doctor','$docFees','$appdate','1','1')");
+
+            if ($query) {
+                echo "<script>alert('Your appointment successfully booked');</script>";
+            } else {
+                echo "<script>alert('Unable to process your request. Please try again!');</script>";
+            }
+        } else {
+            echo "<script>alert('We are sorry to inform that the doctor is not available in this time or date. Please choose a different time or date!');</script>";
+        }
+    } else {
+        echo "<script>alert('Select a time or date in the future!');</script>";
     }
-    else{
-      echo "<script>alert('Select a time or date in the future!');</script>";
+} elseif (isset($_GET['cancel'])) {
+    $query = mysqli_query($con, "update appointmenttb set userStatus='0' where ID = '" . $_GET['ID'] . "'");
+    if ($query) {
+        echo "<script>alert('Your appointment successfully cancelled');</script>";
     }
-  }
-  else{
-      echo "<script>alert('Select a time or date in the future!');</script>";
-  }
-  
 }
-
-if(isset($_GET['cancel']))
-  {
-    $query=mysqli_query($con,"update appointmenttb set userStatus='0' where ID = '".$_GET['ID']."'");
-    if($query)
-    {
-      echo "<script>alert('Your appointment successfully cancelled');</script>";
-    }
-  }
-
-
 
 
 
 function generate_bill(){
-  $con=mysqli_connect("localhost","root","","myhmsdb");
+  include('include/config.php');
   $pid = $_SESSION['pid'];
   $output='';
-  $query=mysqli_query($con,"select p.pid,p.ID,p.fname,p.lname,p.doctor,p.appdate,p.apptime,p.disease,p.allergy,p.prescription,a.docFees from prestb p inner join appointmenttb a on p.ID=a.ID and p.pid = '$pid' and p.ID = '".$_GET['ID']."'");
+  $query=mysqli_query($con,"select p.pid,p.ID,p.fname,p.lname,p.doctor,p.appdate,p.disease,p.allergy,p.prescription,a.docFees from prestb p inner join appointmenttb a on p.ID=a.ID and p.pid = '$pid' and p.ID = '".$_GET['ID']."'");
   while($row = mysqli_fetch_array($query)){
     $output .= '
     <label> Patient ID : </label>'.$row["pid"].'<br/><br/>
@@ -91,7 +70,6 @@ function generate_bill(){
     <label> Patient Name : </label>'.$row["fname"].' '.$row["lname"].'<br/><br/>
     <label> Doctor Name : </label>'.$row["doctor"].'<br/><br/>
     <label> Appointment Date : </label>'.$row["appdate"].'<br/><br/>
-    <label> Appointment Time : </label>'.$row["apptime"].'<br/><br/>
     <label> Disease : </label>'.$row["disease"].'<br/><br/>
     <label> Allergies : </label>'.$row["allergy"].'<br/><br/>
     <label> Prescription : </label>'.$row["prescription"].'<br/><br/>
@@ -126,7 +104,7 @@ if(isset($_GET["generate_bill"])){
 
   $content .= '
       <br/>
-      <h2 align ="center"> Global Hospitals</h2></br>
+      <h2 align ="center"> CARE GROUP</h2></br>
       <h3 align ="center"> Bill</h3>
       
 
@@ -140,7 +118,7 @@ if(isset($_GET["generate_bill"])){
 }
 
 function get_specs(){
-  $con=mysqli_connect("localhost","root","","myhmsdb");
+  include('include/config.php');
   $query=mysqli_query($con,"select username,spec from doctb");
   $docarray = array();
     while($row =mysqli_fetch_assoc($query))
@@ -178,7 +156,7 @@ function get_specs(){
     
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
       <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-  <a class="navbar-brand" href="#"><i class="fa fa-user-plus" aria-hidden="true"></i> Global Hospital </a>
+  <a class="navbar-brand" href="#"><i class="fa fa-user-plus" aria-hidden="true"></i> CARE GROUP </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -309,7 +287,7 @@ function get_specs(){
                   
                   <!-- <?php
 
-                        $con=mysqli_connect("localhost","root","","myhmsdb");
+                        include('include/config.php');
                         $query=mysqli_query($con,"select username,spec from doctb");
                         $docarray = array();
                           while($row =mysqli_fetch_assoc($query))
@@ -335,7 +313,7 @@ function get_specs(){
 
                         <br><br>
 
-                        <script>
+                  <script>
                       document.getElementById('spec').onchange = function foo() {
                         let spec = this.value;   
                         console.log(spec)
@@ -361,7 +339,7 @@ function get_specs(){
                   </div><br/><br/> 
 
 
-                        <script>
+            <script>
               document.getElementById('doctor').onchange = function updateFees(e) {
                 var selection = document.querySelector(`[value=${this.value}]`).getAttribute('data-value');
                 document.getElementById('docFees').value = selection;
@@ -425,8 +403,9 @@ function get_specs(){
                   <div class="col-md-8"><input type="date" class="form-control datepicker" name="appdate"></div><br><br>
 
                   <div class="col-md-4"><label>Appointment Time</label></div>
-                  <div class="col-md-8">
-                    <!-- <input type="time" class="form-control" name="apptime"> -->
+                  <!-- <div class="col-md-8">
+                    comment this out too<input type="time" class="form-control" name="apptime">
+
                     <select name="apptime" class="form-control" id="apptime" required="required">
                       <option value="" disabled selected>Select Time</option>
                       <option value="08:00:00">8:00 AM</option>
@@ -436,7 +415,7 @@ function get_specs(){
                       <option value="16:00:00">4:00 PM</option>
                     </select>
 
-                  </div><br><br>
+                  </div><br><br> -->
 
                   <div class="col-md-4">
                     <input type="submit" name="app-submit" value="Create new entry" class="btn btn-primary" id="inputbtn">
@@ -458,7 +437,6 @@ function get_specs(){
                     <th scope="col">Doctor Name</th>
                     <th scope="col">Consultancy Fees</th>
                     <th scope="col">Appointment Date</th>
-                    <th scope="col">Appointment Time</th>
                     <th scope="col">Current Status</th>
                     <th scope="col">Action</th>
                   </tr>
@@ -466,10 +444,10 @@ function get_specs(){
                 <tbody>
                   <?php 
 
-                    $con=mysqli_connect("localhost","root","","myhmsdb");
+                    include('include/config.php');
                     global $con;
 
-                    $query = "select ID,doctor,docFees,appdate,apptime,userStatus,doctorStatus from appointmenttb where fname ='$fname' and lname='$lname';";
+                    $query = "select ID,doctor,docFees,appdate,userStatus,doctorStatus from appointmenttb where fname ='$fname' and lname='$lname';";
                     $result = mysqli_query($con,$query);
                     while ($row = mysqli_fetch_array($result)){
               
@@ -482,7 +460,6 @@ function get_specs(){
                         <td><?php echo $row['doctor'];?></td>
                         <td><?php echo $row['docFees'];?></td>
                         <td><?php echo $row['appdate'];?></td>
-                        <td><?php echo $row['apptime'];?></td>
                         
                           <td>
                     <?php if(($row['userStatus']==1) && ($row['doctorStatus']==1))  
@@ -532,7 +509,6 @@ function get_specs(){
                     <th scope="col">Doctor Name</th>
                     <th scope="col">Appointment ID</th>
                     <th scope="col">Appointment Date</th>
-                    <th scope="col">Appointment Time</th>
                     <th scope="col">Diseases</th>
                     <th scope="col">Allergies</th>
                     <th scope="col">Prescriptions</th>
@@ -542,10 +518,10 @@ function get_specs(){
                 <tbody>
                   <?php 
 
-                    $con=mysqli_connect("localhost","root","","myhmsdb");
+                    include('include/config.php');
                     global $con;
 
-                    $query = "select doctor,ID,appdate,apptime,disease,allergy,prescription from prestb where pid='$pid';";
+                    $query = "select doctor,ID,appdate,disease,allergy,prescription from prestb where pid='$pid';";
                     
                     $result = mysqli_query($con,$query);
                     if(!$result){
@@ -559,7 +535,6 @@ function get_specs(){
                         <td><?php echo $row['doctor'];?></td>
                         <td><?php echo $row['ID'];?></td>
                         <td><?php echo $row['appdate'];?></td>
-                        <td><?php echo $row['apptime'];?></td>
                         <td><?php echo $row['disease'];?></td>
                         <td><?php echo $row['allergy'];?></td>
                         <td><?php echo $row['prescription'];?></td>
