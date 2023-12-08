@@ -25,56 +25,62 @@ if(isset($_POST['update_data']))
   header("Location:updated.php");
 }
 
-// function display_docs()
-// {
-//  global $con;
-//  $query="select * from doctb";
-//  $result=mysqli_query($con,$query);
-//  while($row=mysqli_fetch_array($result))
-//  {
-//   $username=$row['username'];
-//   $price=$row['docFees'];
-//   echo '<option value="' .$username. '" data-value="'.$price.'">'.$username.'</option>';
-//  }
-// }
+function display_specs($tb) {
+  // Check if there are results
+  if (!empty($tb)) {
+      // Create an array to store unique specialties
+      $uniqueSpecialties = array();
 
+      foreach ($tb as $row) {
+          $spec = $row['spec'];
 
-function display_specs() {
-  global $con;
-  $query="select distinct(spec) from doctb";
-  $result=mysqli_query($con,$query);
-  while($row=mysqli_fetch_array($result))
-  {
-    $spec=$row['spec'];
-    echo '<option data-value="'.$spec.'">'.$spec.'</option>';
+          // Check if the specialty is not already in the uniqueSpecialties array
+          if (!in_array($spec, $uniqueSpecialties)) {
+              $uniqueSpecialties[] = $spec;
+              echo '<option data-value="' . $spec . '">' . $spec . '</option>';
+          }
+      }
+  } else {
+      echo '<option value="" disabled>No specialties available</option>';
   }
 }
 
-function display_docs()
-{
- global $con;
- $query = "select * from doctb";
- $result = mysqli_query($con,$query);
- while( $row = mysqli_fetch_array($result) )
- {
-  $username = $row['username'];
-  $price = $row['docFees'];
-  $spec = $row['spec'];
-  echo '<option value="' .$username. '" data-value="'.$price.'" data-spec="'.$spec.'">'.$username.'</option>';
- }
+
+function display_docs($tb) {
+  if (!empty($tb)) {
+    foreach ($tb as $row) {
+      $username = $row['username'];
+      $price = $row['docFees'];
+      $spec = $row['spec'];
+      $city = $row['city'];
+      echo '<option value="' . $username . '" data-value="' . $price . '" data-spec="' . $spec . '"  data-city="' . $city . '">' . $username . '</option>';
+    }
+  } else {
+    echo '<option value="" disabled>No doctors available</option>';
+  }
 }
 
-// function display_specs() {
-//   global $con;
-//   $query = "select distinct(spec) from doctb";
-//   $result = mysqli_query($con,$query);
-//   while($row = mysqli_fetch_array($result))
-//   {
-//     $spec = $row['spec'];
-//     $username = $row['username'];
-//     echo '<option value = "' .$spec. '">'.$spec.'</option>';
-//   }
-// }
+function display_cities($tb) {
+  // Check if there are results
+  if (!empty($tb)) {
+      // Create an array to store unique cities
+      $uniqueCities = array();
+
+      foreach ($tb as $row) {
+          $city = $row['city'];
+
+          // Check if the city is not already in the uniqueCities array
+          if (!in_array($city, $uniqueCities)) {
+              $uniqueCities[] = $city;
+              echo '<option>' . $city . '</option>';
+          }
+      }
+  } else {
+      echo '<option value="" disabled>No doctors in any City available</option>';
+  }
+}
+
+
 
 
 if(isset($_POST['doc_sub']))

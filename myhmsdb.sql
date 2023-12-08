@@ -108,7 +108,47 @@ CREATE TABLE `doctb` (
 --
 
 INSERT INTO `doctb` (`username`, `password`, `email`, `city`, `spec`, `docFees`) VALUES
-('zain', 'zain123', 'zain@gmail.com', 'karachi', 'chiropractor', 500);
+('zain', 'zain123', 'zain@gmail.com', 'karachi', 'chiropractor', 500),
+('john_doe', 'john123', 'john_doe@gmail.com', 'new_york', 'cardiologist', 600),
+('emma_smith', 'emma123', 'emma_smith@gmail.com', 'london', 'dermatologist', 550),
+('alex_wilson', 'alex123', 'alex_wilson@gmail.com', 'sydney', 'neurologist', 650),
+('sophie_jones', 'sophie123', 'sophie_jones@gmail.com', 'paris', 'pediatrician', 500),
+('ryan_brown', 'ryan123', 'ryan_brown@gmail.com', 'toronto', 'orthopedic_surgeon', 700),
+('olivia_martin', 'olivia123', 'olivia_martin@gmail.com', 'los_angeles', 'gastroenterologist', 600),
+('liam_miller', 'liam123', 'liam_miller@gmail.com', 'chicago', 'ophthalmologist', 550),
+('ava_davis', 'ava123', 'ava_davis@gmail.com', 'berlin', 'psychiatrist', 600),
+('noah_smith', 'noah123', 'noah_smith@gmail.com', 'tokyo', 'dentist', 500),
+('isabella_taylor', 'isabella123', 'isabella_taylor@gmail.com', 'mumbai', 'urologist', 700),
+('mason_anderson', 'mason123', 'mason_anderson@gmail.com', 'hong_kong', 'oncologist', 650),
+('mia_clark', 'mia123', 'mia_clark@gmail.com', 'barcelona', 'radiologist', 600),
+('ethan_hall', 'ethan123', 'ethan_hall@gmail.com', 'singapore', 'ophthalmologist', 550),
+('ava_harris', 'ava123', 'ava_harris@gmail.com', 'new_delhi', 'dermatologist', 600),
+('logan_martin', 'logan123', 'logan_martin@gmail.com', 'istanbul', 'orthopedic_surgeon', 700),
+('harper_miller', 'harper123', 'harper_miller@gmail.com', 'rio_de_janeiro', 'gastroenterologist', 600),
+('lucas_jackson', 'lucas123', 'lucas_jackson@gmail.com', 'amsterdam', 'neurologist', 650),
+('amelia_wilson', 'amelia123', 'amelia_wilson@gmail.com', 'rome', 'cardiologist', 600),
+('aiden_morris', 'aiden123', 'aiden_morris@gmail.com', 'bangkok', 'pediatrician', 500),
+('zoey_clark', 'zoey123', 'zoey_clark@gmail.com', 'seoul', 'ophthalmologist', 550),
+('leo_jones', 'leo123', 'leo_jones@gmail.com', 'moscow', 'psychiatrist', 600),
+('olivia_smith', 'olivia123', 'olivia_smith@gmail.com', 'mexico_city', 'dermatologist', 550),
+('jack_davis', 'jack123', 'jack_davis@gmail.com', 'madrid', 'orthopedic_surgeon', 700),
+('sophia_anderson', 'sophia123', 'sophia_anderson@gmail.com', 'cairo', 'gastroenterologist', 600),
+('liam_taylor', 'liam123', 'liam_taylor@gmail.com', 'lima', 'neurologist', 650),
+('ava_jackson', 'ava123', 'ava_jackson@gmail.com', 'johannesburg', 'cardiologist', 600),
+('noah_morris', 'noah123', 'noah_morris@gmail.com', 'istanbul', 'dentist', 500),
+('isabella_martin', 'isabella123', 'isabella_martin@gmail.com', 'hong_kong', 'urologist', 700),
+('mason_hall', 'mason123', 'mason_hall@gmail.com', 'rio_de_janeiro', 'oncologist', 650),
+('mia_smith', 'mia123', 'mia_smith@gmail.com', 'amsterdam', 'radiologist', 600),
+('ethan_clark', 'ethan123', 'ethan_clark@gmail.com', 'singapore', 'ophthalmologist', 550),
+('ava_hall', 'ava123', 'ava_hall@gmail.com', 'new_delhi', 'dermatologist', 600),
+('logan_miller', 'logan123', 'logan_miller@gmail.com', 'istanbul', 'orthopedic_surgeon', 700),
+('harper_taylor', 'harper123', 'harper_taylor@gmail.com', 'rio_de_janeiro', 'gastroenterologist', 600),
+('lucas_anderson', 'lucas123', 'lucas_anderson@gmail.com', 'amsterdam', 'neurologist', 650),
+('amelia_wilson', 'amelia123', 'amelia_wilson@gmail.com', 'rome', 'cardiologist', 600),
+('aiden_morris', 'aiden123', 'aiden_morris@gmail.com', 'bangkok', 'pediatrician', 500),
+('zoey_clark', 'zoey123', 'zoey_clark@gmail.com', 'seoul', 'ophthalmologist', 550),
+('leo_jones', 'leo123', 'leo_jones@gmail.com', 'moscow', 'psychiatrist', 600);
+
 
 -- --------------------------------------------------------
 
