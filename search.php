@@ -38,14 +38,12 @@ if(isset($_POST['search_submit'])){
     $email=$row['email'];
     $contact=$row['contact'];
     $appdate=$row['appdate'];
-    $apptime=$row['apptime'];
     echo '<tr>
       <td>'.$fname.'</td>
       <td>'.$lname.'</td>
       <td>'.$email.'</td>
       <td>'.$contact.'</td>
       <td>'.$appdate.'</td>
-      <td>'.$apptime.'</td>
     </tr>';
   }
 echo '</tbody></table></div> 

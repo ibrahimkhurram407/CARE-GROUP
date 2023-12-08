@@ -12,7 +12,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -57,17 +56,16 @@ CREATE TABLE `appointmenttb` (
   `doctor` varchar(30) NOT NULL,
   `docFees` int(5) NOT NULL,
   `appdate` date NOT NULL,
-  `apptime` time NOT NULL,
   `userStatus` int(5) NOT NULL,
   `doctorStatus` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 
 --
 -- Dumping data for table `appointmenttb`
 --
 
-INSERT INTO `appointmenttb` (`pid`, `ID`, `fname`, `lname`, `gender`, `email`, `contact`, `doctor`, `docFees`, `appdate`, `apptime`, `userStatus`, `doctorStatus`) VALUES
-(4, 1, 'Kishan', 'Lal', 'Male', 'kishansmart0@gmail.com', '8838489464', 'Ganesh', 550, '2020-02-14', '10:00:00', 1, 0);
+INSERT INTO `appointmenttb` (`pid`, `ID`, `fname`, `lname`, `gender`, `email`, `contact`, `doctor`, `docFees`, `appdate`, `userStatus`, `doctorStatus`) VALUES
+(1, 1, 'dum', 'dum', 'Male', 'dum@gmail.com', '8838489464', 'zain', 550, '2023-12-14', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -96,20 +94,21 @@ INSERT INTO `contact` (`name`, `email`, `contact`, `message`) VALUES
 --
 
 CREATE TABLE `doctb` (
+  `id` int PRIMARY Key  AUTO_INCREMENT NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `city` varchar(30) NOT NULL,
   `spec` varchar(50) NOT NULL,
   `docFees` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 
 --
 -- Dumping data for table `doctb`
 --
 
 INSERT INTO `doctb` (`username`, `password`, `email`, `city`, `spec`, `docFees`) VALUES
-('zain', 'zain123', 'zain@gmail.com', 'karachi' 'gynecologist', 500);
+('zain', 'zain123', 'zain@gmail.com', 'karachi', 'chiropractor', 500);
 
 -- --------------------------------------------------------
 
@@ -133,7 +132,7 @@ CREATE TABLE `patreg` (
 --
 
 INSERT INTO `patreg` (`pid`, `fname`, `lname`, `gender`, `email`, `contact`, `password`, `cpassword`) VALUES
-(1, 'dum', 'dum', 'Male', 'dum@gmail.com', '9876543210', 'lol', 'lol')';'
+(1, 'dum', 'dum', 'Male', 'dum@gmail.com', '9876543210', 'lol', 'lol');
 
 -- --------------------------------------------------------
 
@@ -148,7 +147,6 @@ CREATE TABLE `prestb` (
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
   `appdate` date NOT NULL,
-  `apptime` time NOT NULL,
   `disease` varchar(250) NOT NULL,
   `allergy` varchar(250) NOT NULL,
   `prescription` varchar(1000) NOT NULL
@@ -158,12 +156,8 @@ CREATE TABLE `prestb` (
 -- Dumping data for table `prestb`
 --
 
-INSERT INTO `prestb` (`doctor`, `pid`, `ID`, `fname`, `lname`, `appdate`, `apptime`, `disease`, `allergy`, `prescription`) VALUES
-('Dinesh', 4, 11, 'dum', 'dum', '2020-03-27', '15:00:00', 'Cough', 'Nothing', 'Just take a teaspoon of Benadryl every night');
-
---
--- Indexes for dumped tables
---
+INSERT INTO `prestb` (`doctor`, `pid`, `ID`, `fname`, `lname`, `appdate`, `disease`, `allergy`, `prescription`) VALUES
+('zain', 1, 1, 'dum', 'dum', '2023-03-27', 'Cough', 'Nothing', 'Just take a teaspoon of Benadryl every night');
 
 --
 -- Indexes for table `appointmenttb`

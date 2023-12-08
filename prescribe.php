@@ -4,24 +4,21 @@ include('func1.php');
 $pid='';
 $ID='';
 $appdate='';
-$apptime='';
 $fname = '';
 $lname= '';
 $doctor = $_SESSION['dname'];
-if(isset($_GET['pid']) && isset($_GET['ID']) && ($_GET['appdate']) && isset($_GET['apptime']) && isset($_GET['fname']) && isset($_GET['lname'])) {
+if(isset($_GET['pid']) && isset($_GET['ID']) && ($_GET['appdate']) && isset($_GET['fname']) && isset($_GET['lname'])) {
 $pid = $_GET['pid'];
   $ID = $_GET['ID'];
   $fname = $_GET['fname'];
   $lname = $_GET['lname'];
   $appdate = $_GET['appdate'];
-  $apptime = $_GET['apptime'];
 }
 
 
 
-if(isset($_POST['prescribe']) && isset($_POST['pid']) && isset($_POST['ID']) && isset($_POST['appdate']) && isset($_POST['apptime']) && isset($_POST['lname']) && isset($_POST['fname'])){
+if(isset($_POST['prescribe']) && isset($_POST['pid']) && isset($_POST['ID']) && isset($_POST['appdate']) && isset($_POST['lname']) && isset($_POST['fname'])){
   $appdate = $_POST['appdate'];
-  $apptime = $_POST['apptime'];
   $disease = $_POST['disease'];
   $allergy = $_POST['allergy'];
   $fname = $_POST['fname'];
@@ -30,7 +27,7 @@ if(isset($_POST['prescribe']) && isset($_POST['pid']) && isset($_POST['ID']) && 
   $ID = $_POST['ID'];
   $prescription = $_POST['prescription'];
   
-  $query=mysqli_query($con,"insert into prestb(doctor,pid,ID,fname,lname,appdate,apptime,disease,allergy,prescription) values ('$doctor','$pid','$ID','$fname','$lname','$appdate','$apptime','$disease','$allergy','$prescription')");
+  $query=mysqli_query($con,"insert into prestb(doctor,pid,ID,fname,lname,appdate,disease,allergy,prescription) values ('$doctor','$pid','$ID','$fname','$lname','$appdate','$disease','$allergy','$prescription')");
     if($query)
     {
       echo "<script>alert('Prescribed successfully!');</script>";
@@ -138,7 +135,6 @@ if(isset($_POST['prescribe']) && isset($_POST['pid']) && isset($_POST['ID']) && 
                   <input type="hidden" name="fname" value="<?php echo $fname ?>" />
                   <input type="hidden" name="lname" value="<?php echo $lname ?>" />
                   <input type="hidden" name="appdate" value="<?php echo $appdate ?>" />
-                  <input type="hidden" name="apptime" value="<?php echo $apptime ?>" />
                   <input type="hidden" name="pid" value="<?php echo $pid ?>" />
                   <input type="hidden" name="ID" value="<?php echo $ID ?>" />
                   <br><br><br><br>

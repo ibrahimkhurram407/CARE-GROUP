@@ -2,10 +2,15 @@
 <?php 
 include('func1.php');
 include('./include/config.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 $doctor = $_SESSION['dname'];
 if(isset($_GET['cancel']))
   {
     $query=mysqli_query($con,"update appointmenttb set doctorStatus='0' where ID = '".$_GET['ID']."'");
+    if(!$result){
+      echo mysqli_error($con);
+    }
     if($query)
     {
       echo "<script>alert('Your appointment successfully cancelled');</script>";
@@ -170,7 +175,6 @@ if(isset($_GET['cancel']))
                     <th scope="col">Email</th>
                     <th scope="col">Contact</th>
                     <th scope="col">Appointment Date</th>
-                    <th scope="col">Appointment Time</th>
                     <th scope="col">Current Status</th>
                     <th scope="col">Action</th>
                     <th scope="col">Prescribe</th>
@@ -182,8 +186,11 @@ if(isset($_GET['cancel']))
                     include('include/config.php');
                     global $con;
                     $dname = $_SESSION['dname'];
-                    $query = "select pid,ID,fname,lname,gender,email,contact,appdate,apptime,userStatus,doctorStatus from appointmenttb where doctor='$dname';";
+                    $query = "select pid,ID,fname,lname,gender,email,contact,appdate,userStatus,doctorStatus from appointmenttb where doctor='$dname';";
                     $result = mysqli_query($con,$query);
+                    if(!$result){
+                      echo mysqli_error($con);
+                    }
                     while ($row = mysqli_fetch_array($result)){
                       ?>
                       <tr>
@@ -194,8 +201,7 @@ if(isset($_GET['cancel']))
                         <td><?php echo $row['gender'];?></td>
                         <td><?php echo $row['email'];?></td>
                         <td><?php echo $row['contact'];?></td>
-                        <td><?php echo $row['appdate'];?></td>
-                        <td><?php echo $row['apptime'];?></td>
+                        <td><?php echo $row['appdate'];?></td>    
                         <td>
                     <?php if(($row['userStatus']==1) && ($row['doctorStatus']==1))  
                     {
@@ -232,7 +238,7 @@ if(isset($_GET['cancel']))
                         <?php if(($row['userStatus']==1) && ($row['doctorStatus']==1))  
                         { ?>
 
-                        <a href="prescribe.php?pid=<?php echo $row['pid']?>&ID=<?php echo $row['ID']?>&fname=<?php echo $row['fname']?>&lname=<?php echo $row['lname']?>&appdate=<?php echo $row['appdate']?>&apptime=<?php echo $row['apptime']?>"
+                        <a href="prescribe.php?pid=<?php echo $row['pid']?>&ID=<?php echo $row['ID']?>&fname=<?php echo $row['fname']?>&lname=<?php echo $row['lname']?>&appdate=<?php echo $row['appdate']?>"
                         tooltip-placement="top" tooltip="Remove" title="prescribe">
                         <button class="btn btn-success">Prescibe</button></a>
                         <?php } else {
@@ -263,7 +269,6 @@ if(isset($_GET['cancel']))
                     <th scope="col">Last Name</th>
                     <th scope="col">Appointment ID</th>
                     <th scope="col">Appointment Date</th>
-                    <th scope="col">Appointment Time</th>
                     <th scope="col">Disease</th>
                     <th scope="col">Allergy</th>
                     <th scope="col">Prescribe</th>
@@ -275,7 +280,7 @@ if(isset($_GET['cancel']))
                     include('include/config.php');
                     global $con;
 
-                    $query = "select pid,fname,lname,ID,appdate,apptime,disease,allergy,prescription from prestb where doctor='$doctor';";
+                    $query = "select pid,fname,lname,ID,appdate,disease,allergy,prescription from prestb where doctor='$doctor';";
                     
                     $result = mysqli_query($con,$query);
                     if(!$result){
@@ -292,7 +297,6 @@ if(isset($_GET['cancel']))
                         <td><?php echo $row['ID'];?></td>
                         
                         <td><?php echo $row['appdate'];?></td>
-                        <td><?php echo $row['apptime'];?></td>
                         <td><?php echo $row['disease'];?></td>
                         <td><?php echo $row['allergy'];?></td>
                         <td><?php echo $row['prescription'];?></td>
@@ -319,7 +323,6 @@ if(isset($_GET['cancel']))
                     <th scope="col">Doctor Name</th>
                     <th scope="col">Consultancy Fees</th>
                     <th scope="col">Appointment Date</th>
-                    <th scope="col">Appointment Time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -330,6 +333,9 @@ if(isset($_GET['cancel']))
 
                     $query = "select * from appointmenttb;";
                     $result = mysqli_query($con,$query);
+                    if(!$result){
+                      echo mysqli_error($con);
+                    }
                     while ($row = mysqli_fetch_array($result)){
               
                       #$fname = $row['fname'];
@@ -345,7 +351,6 @@ if(isset($_GET['cancel']))
                         <td><?php echo $row['doctor'];?></td>
                         <td><?php echo $row['docFees'];?></td>
                         <td><?php echo $row['appdate'];?></td>
-                        <td><?php echo $row['apptime'];?></td>
                       </tr>
                     <?php } ?>
                 </tbody>

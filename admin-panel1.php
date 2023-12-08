@@ -374,7 +374,6 @@ if(isset($_POST['docsub1']))
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Appointment Date</th>
-                    <th scope="col">Appointment Time</th>
                     <th scope="col">Disease</th>
                     <th scope="col">Allergy</th>
                     <th scope="col">Prescription</th>
@@ -393,7 +392,6 @@ if(isset($_POST['docsub1']))
                       $fname = $row['fname'];
                       $lname = $row['lname'];
                       $appdate = $row['appdate'];
-                      $apptime = $row['apptime'];
                       $disease = $row['disease'];
                       $allergy = $row['allergy'];
                       $pres = $row['prescription'];
@@ -406,7 +404,6 @@ if(isset($_POST['docsub1']))
                         <td>$fname</td>
                         <td>$lname</td>
                         <td>$appdate</td>
-                        <td>$apptime</td>
                         <td>$disease</td>
                         <td>$allergy</td>
                         <td>$pres</td>
@@ -447,7 +444,6 @@ if(isset($_POST['docsub1']))
                     <th scope="col">Doctor Name</th>
                     <th scope="col">Consultancy Fees</th>
                     <th scope="col">Appointment Date</th>
-                    <th scope="col">Appointment Time</th>
                     <th scope="col">Appointment Status</th>
                   </tr>
                 </thead>
@@ -472,7 +468,6 @@ if(isset($_POST['docsub1']))
                         <td><?php echo $row['doctor'];?></td>
                         <td><?php echo $row['docFees'];?></td>
                         <td><?php echo $row['appdate'];?></td>
-                        <td><?php echo $row['apptime'];?></td>
                         <td>
                     <?php if(($row['userStatus']==1) && ($row['doctorStatus']==1))  
                     {
