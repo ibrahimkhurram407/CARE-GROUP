@@ -24,19 +24,22 @@ include('./include/config.php');
     $gender = $_SESSION['gender'];
     $contact = $_SESSION['contact'];
     $doctor = $_POST['doctor'];
-    $email = $_SESSION['email'];
-    # $fees=$_POST['fees'];
     $docFees = $_POST['docFees'];
-
     $appdate = $_POST['appdate'];
+    
+    // Get the current date
     $cur_date = date("Y-m-d");
-    $appdate1 = strtotime($appdate);
 
-    if (date("Y-m-d", $appdate1) == $cur_date || date("Y-m-d", $appdate1) > $cur_date) {
-        $check_query = mysqli_query($con, "select ID from appointmenttb where doctor='$doctor' and appdate='$appdate'");
+    // Convert the appointment date to a timestamp
+    $appdate_timestamp = strtotime($appdate);
+    // Compare the appointment date with the current date
+    if ($appdate_timestamp === false) {
+        echo "<script>alert('Invalid date format!');</script>";
+    } elseif ($appdate_timestamp >= strtotime($cur_date)) {
+        $check_query = mysqli_query($con, "SELECT ID FROM appointmenttb WHERE doctor='$doctor' AND appdate='$appdate'");
 
         if (mysqli_num_rows($check_query) == 0) {
-            $query = mysqli_query($con, "insert into appointmenttb(pid,fname,lname,gender,email,contact,doctor,docFees,appdate,userStatus,doctorStatus) values($pid,'$fname','$lname','$gender','$email','$contact','$doctor','$docFees','$appdate','1','1')");
+            $query = mysqli_query($con, "INSERT INTO appointmenttb (pid, fname, lname, gender, email, contact, doctor, docFees, appdate, userStatus, doctorStatus) VALUES ($pid, '$fname', '$lname', '$gender', '$email', '$contact', '$doctor', '$docFees', '$appdate', '1', '1')");
 
             if ($query) {
                 echo "<script>alert('Your appointment successfully booked');</script>";
@@ -44,12 +47,13 @@ include('./include/config.php');
                 echo "<script>alert('Unable to process your request. Please try again!');</script>";
             }
         } else {
-            echo "<script>alert('We are sorry to inform that the doctor is not available in this time or date. Please choose a different time or date!');</script>";
+            echo "<script>alert('We are sorry to inform that the doctor is not available at this time or date. Please choose a different time or date!');</script>";
         }
     } else {
         echo "<script>alert('Select a time or date in the future!');</script>";
     }
-} elseif (isset($_GET['cancel'])) {
+}
+ elseif (isset($_GET['cancel'])) {
     $query = mysqli_query($con, "update appointmenttb set userStatus='0' where ID = '" . $_GET['ID'] . "'");
     if ($query) {
         echo "<script>alert('Your appointment successfully cancelled');</script>";
@@ -322,13 +326,27 @@ button:hover {
                                               
                                               // Convert the PHP array to a JSON string
                                               $doctb = json_encode($data);
+                                              $query = "SELECT * FROM availabilitytb;";
+                                              $result1 = mysqli_query($con, $query);
+                                              $data1 = array();
+
+                                              // Check if there are results
+                                              if ($result1->num_rows > 0) {
+                                                  // Fetch each row and add it to the array
+                                                  while ($row = $result1->fetch_assoc()) {
+                                                      $data1[] = $row;
+                                                  }
+                                              }
+                                              
+                                              // Convert the PHP array to a JSON string
+                                              $availabilitytb = json_encode($data1);
                                               ?>
 
                                             <div class="col-md-4">
                                                 <label for="city">City:</label>
                                             </div>
                                             <div class="col-md-8">
-                                                <select name="city" class="form-control" id="city">
+                                                <select name="city" id="city" class="form-control">
                                                     <option value="" disabled selected>Select City</option>
                                                     <?php display_cities($data); ?>
                                                 </select>
@@ -367,9 +385,14 @@ button:hover {
                                                 <label for="appdate">Appointment Date:</label>
                                             </div>
                                             <div class="col-md-8">
-                                                <input type="date" class="form-control datepicker" name="appdate"
+                                                <!-- <input type="date" class="form-control datepicker" name="appdate" id="appdate"
+                                                    required="required"> -->
+                                                <select class="form-control" id="appdate" name="appdate"
                                                     required="required">
+                                                    <option value="" disabled selected>Select Date</option>
+                                                </select>
                                             </div><br><br>
+                                            
 
                                             <div class="col-md-4">
                                                 <input type="submit" name="app-submit" value="Create new entry"
@@ -417,7 +440,8 @@ button:hover {
 
     var doctb = <?php echo $doctb; ?>;
     console.log(doctb);
-
+    var availabilitytb = <?php echo $availabilitytb; ?>;
+    console.log(availabilitytb);
     // on change spec
     document.getElementById('spec').onchange = function () {
         // update doctors
@@ -476,13 +500,61 @@ button:hover {
 
     };
 
-    // on change doctor
     document.getElementById('doctor').onchange = function () {
-        // update phees
-        var selection = document.querySelector(`[value=${this.value}]`)
-            .getAttribute('data-value');
+        // update fees
+        var selection = document.querySelector(`[value=${this.value}]`).getAttribute('data-value');
         document.getElementById('docFees').value = selection;
+
+        // update available dates
+        var id = document.querySelector(`[value=${this.value}]`).getAttribute('docID');
+        var dateInput = document.getElementById('appdate');
+
+        var availableDates = availabilitytb
+            .filter(function (item) {
+                return item.doctor_id === id;
+            })
+            .map(function (item) {
+                return item.date;
+            });
+
+        dateInput.innerHTML = '';
+
+        dateInput.setAttribute('disabled', 'disabled');
+
+        var defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.text = 'Select Date';
+        dateInput.add(defaultOption);
+
+        availableDates.forEach(function (date) {
+            var option = document.createElement('option');
+            option.value = date;
+            option.text = date;
+            dateInput.add(option);
+        });
+
+        if (availableDates.length > 0) {
+            dateInput.removeAttribute('disabled');
+        }
+
+        var spec = document.querySelector(`[value=${this.value}]`).getAttribute('data-spec');
+        var city = document.querySelector(`[value=${this.value}]`).getAttribute('data-city');
+
+        var spec_selector = document.getElementById("spec");
+        var city_selector = document.getElementById("city");
+
+        var spec_choice = Array.from(spec_selector.options).find(option => option.value === spec);
+        if (spec_choice) {
+            spec_choice.selected = true;
+        }
+        var city_choice = Array.form(city_selector.options).find(option => option.value === city);
+        if (city_choice) {
+            city_choice.selected = true;
+        }
     };
+
+    // Initial call to set available dates when the page loads
+    document.getElementById('doctor').dispatchEvent(new Event('change'));
 </script>
                                         </div>
                                     </form>

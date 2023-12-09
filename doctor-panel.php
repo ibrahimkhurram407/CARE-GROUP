@@ -398,12 +398,6 @@ if(isset($_GET['cancel']))
 
               <input type="submit" value="Set Availability">
           </form>
-          <?php
-          if (isset($_SESSION['dID'])) {
-            $doctorId = $_SESSION['dID'];
-            echo $_SESSION['dID'];
-          }
-          ?>
           <script>
               // Add event listener to dynamically update the form action URL
               document.getElementById('availabilityForm').addEventListener('submit', function (event) {
@@ -432,10 +426,6 @@ if(isset($_GET['cancel']))
               });
           </script>
       </div>
-
-
-
-
 
 
       <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>

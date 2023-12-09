@@ -14,12 +14,6 @@ if (isset($_SESSION['dID'])) {
     $selectedWeeks = $_GET['weeks'];
     $selectedMonths = $_GET['months'];
 
-    // Output the selected days, weeks, and months for debugging
-    echo "Selected Days: " . print_r($selectedDays, true) . "<br>";
-    echo "Selected Weeks: " . print_r($selectedWeeks, true) . "<br>";
-    echo "Selected Months: " . print_r($selectedMonths, true) . "<br>";
-
-
     // Get the current date
     $currentDate = date('Y-m-d');
 
@@ -27,9 +21,8 @@ if (isset($_SESSION['dID'])) {
     $nextYearDate = date('Y-m-d', strtotime('first day of January next year'));
 
     // Check the date range and output for debugging
-    echo "Start Date: $startDate<br>";
-    echo "End Date: $endDate<br>";
     echo "Current Date: $currentDate<br>";
+    echo "End Date: $nextYearDate<br>";
     // Generate an array of dates from the current date to 1st January of next year
     $availableDates = generateDatesArray($currentDate, $nextYearDate, $selectedDays, $selectedWeeks, $selectedMonths);
 
@@ -38,7 +31,16 @@ if (isset($_SESSION['dID'])) {
     echo "Selected Weeks: " . print_r($selectedWeeks, true) . "<br>";
     echo "Selected Months: " . print_r($selectedMonths, true) . "<br>";
     echo "Available Dates: " . print_r($availableDates, true) . "<br>";
+    // Delete entries with id equal to 1
+    $deleteQuery = "DELETE FROM availabilitytb WHERE id = " . $doctorId . ";";
+    $deleteResult = mysqli_query($con, $deleteQuery);
 
+    // Check for success or handle errors as needed
+    if ($deleteResult) {
+        echo "Successfully deleted old entries <br>";
+    } else {
+        echo "Error deleting entries: " . mysqli_error($con) . "<br>";
+    }
     // Insert dates into the database
     foreach ($availableDates as $date) {
         $insertQuery = "INSERT INTO availabilitytb (doctor_id, date) VALUES ('$doctorId', '$date')";
@@ -51,6 +53,7 @@ if (isset($_SESSION['dID'])) {
             echo "Successfully inserted date $date<br>";
         }
     }
+    header("location:./doctor-panel.php");
     
 }else{
     echo "no ID in session";
@@ -71,7 +74,8 @@ function generateDatesArray($startDate, $endDate, $selectedDays, $selectedWeeks,
         $weekMatch = empty($selectedWeeks) || in_array($currentWeek, (array)$selectedWeeks);
         $monthMatch = empty($selectedMonths) || in_array($currentMonth, (array)$selectedMonths);
 
-        if ($dayMatch && $weekMatch && $monthMatch) {
+
+        if ($dayMatch or $weekMatch or $monthMatch) {
             $datesArray[] = date('Y-m-d', $currentDate);
         }
     }

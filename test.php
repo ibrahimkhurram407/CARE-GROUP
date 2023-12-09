@@ -1,5 +1,13 @@
 <?php
 
+$cur_date = date("Y-m-d");
+$appdate1 = strtotime("2023-12-21");
+
+if (date("Y-m-d", $appdate1) == $cur_date || date("Y-m-d", $appdate1) > $cur_date) {
+    echo "worked";
+} else {
+    echo "<script>alert('Select a time or date in the future!');</script>";
+}
 function generateDatesArray($startDate, $endDate, $selectedDays, $selectedWeeks, $selectedMonths) {
     $datesArray = [];
 
@@ -18,7 +26,7 @@ function generateDatesArray($startDate, $endDate, $selectedDays, $selectedWeeks,
     }
 
     // Output the result for debugging
-    var_dump($datesArray);
+    #var_dump($datesArray);
 
     // Return the array
     return $datesArray;
