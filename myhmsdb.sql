@@ -153,6 +153,17 @@ INSERT INTO `doctb` (`username`, `password`, `email`, `city`, `spec`, `docFees`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `availabilitytb`
+--
+
+CREATE TABLE `availabilitytb` (
+  `id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `doctor_id` int NOT NULL,
+  `date` DATE,
+  FOREIGN KEY (`doctor_id`) REFERENCES `doctb` (`id`)
+);
+
+--
 -- Table structure for table `patreg`
 --
 
