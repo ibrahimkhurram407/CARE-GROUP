@@ -49,11 +49,12 @@ function display_specs($tb) {
 function display_docs($tb) {
   if (!empty($tb)) {
     foreach ($tb as $row) {
+      $id = $row['id'];
       $username = $row['username'];
       $price = $row['docFees'];
       $spec = $row['spec'];
       $city = $row['city'];
-      echo '<option value="' . $username . '" data-value="' . $price . '" data-spec="' . $spec . '"  data-city="' . $city . '">' . $username . '</option>';
+      echo "<option value=\"$username\" data-value=\"$price\" data-spec=\"$spec\" data-city=\"$city\" docID=\"$id\">$username</option>";
     }
   } else {
     echo '<option value="" disabled>No doctors available</option>';
@@ -72,7 +73,7 @@ function display_cities($tb) {
           // Check if the city is not already in the uniqueCities array
           if (!in_array($city, $uniqueCities)) {
               $uniqueCities[] = $city;
-              echo '<option>' . $city . '</option>';
+              echo '<option value="'. $city .'" >' . $city . '</option>';
           }
       }
   } else {
