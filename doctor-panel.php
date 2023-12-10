@@ -112,8 +112,8 @@ if(isset($_GET['cancel']))
     <div class="list-group" id="list-tab" role="tablist">
       <a class="list-group-item list-group-item-action active" href="#list-dash" role="tab" aria-controls="home" data-toggle="list">Dashboard</a>
       <a class="list-group-item list-group-item-action" href="#list-app" id="list-app-list" role="tab" data-toggle="list" aria-controls="home">Appointments</a>
-      <a class="list-group-item list-group-item-action" href="#list-pres" id="list-pres-list" role="tab" data-toggle="list" aria-controls="home"> Prescription List</a>
-      
+      <a class="list-group-item list-group-item-action" href="#list-pres" id="list-pres-list" role="tab" data-toggle="list" aria-controls="home">Prescription List</a>
+      <a class="list-group-item list-group-item-action" href="#list-availability" id="list-availibility-list" role="tab" data-toggle="list" aria-controls="home">Edit Availability</a>
     </div><br>
   </div>
   <div class="col-md-8" style="margin-top: 3%;">
@@ -358,8 +358,74 @@ if(isset($_GET['cancel']))
         <br>
       </div>
 
+      <div class="tab-pane fade" id="list-availability" role="tabpanel" aria-labelledby="list-availability-list">
+          <!-- Display the availability picker form -->
+          <form method="post" action="" id="availabilityForm">
+              <label for="days">Select Days:</label><br>
+              <select name="days" multiple>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+              </select><br>
 
+              <label for="weeks">Select Weeks:</label><br>
+              <select name="weeks" multiple>
+                  <option value="1">Week 1</option>
+                  <option value="2">Week 2</option>
+                  <option value="3">Week 3</option>
+                  <option value="4">Week 4</option>
+              </select><br>
 
+              <label for="months">Select Months:</label><br>
+              <select name="months" multiple>
+                  <option value="January">January</option>
+                  <option value="February">February</option>
+                  <option value="March">March</option>
+                  <option value="April">April</option>
+                  <option value="May">May</option>
+                  <option value="June">June</option>
+                  <option value="July">July</option>
+                  <option value="August">August</option>
+                  <option value="September">September</option>
+                  <option value="October">October</option>
+                  <option value="November">November</option>
+                  <option value="December">December</option>
+              </select><br>
+
+              <input type="submit" value="Set Availability">
+          </form>
+          <script>
+              // Add event listener to dynamically update the form action URL
+              document.getElementById('availabilityForm').addEventListener('submit', function (event) {
+                  event.preventDefault();
+
+                  // Get selected options
+                  var selectedDays = Array.from(this.elements['days'].options)
+                      .filter(option => option.selected)
+                      .map(option => option.value);
+
+                  var selectedWeeks = Array.from(this.elements['weeks'].options)
+                      .filter(option => option.selected)
+                      .map(option => option.value);
+
+                  var selectedMonths = Array.from(this.elements['months'].options)
+                      .filter(option => option.selected)
+                      .map(option => option.value);
+
+                  // Update the form action URL
+                  this.action = 'availability.php?days=' + selectedDays.join(',') +
+                      '&weeks=' + selectedWeeks.join(',') +
+                      '&months=' + selectedMonths.join(',');
+
+                  // Submit the form
+                  this.submit();
+              });
+          </script>
+      </div>
 
 
       <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
