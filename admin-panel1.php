@@ -4,6 +4,23 @@ include('./include/config.php');
 
 include('newfunc.php');
 
+$admin_user = $_SESSION['username'];
+if (isset($_SESSION['id'])) {
+    $admin_id = $_SESSION['id'];
+}else {
+    $id_query = mysqli_connect($con, "SELECT id FROM admintb WHERE username = " . $admin_user . ";");
+  if ($id_query) {
+    // Fetch the result as an associative array
+    $id_row = mysqli_fetch_assoc($id_query);
+
+    // Access the 'id' column
+    $admin_id = $id_row['id'];
+  } else {
+    echo "Error: " . mysqli_error($con);
+  }
+
+}
+
 // Query for Appointments
 $check_query_appointments = mysqli_query($con, "SELECT * FROM appointmenttb;");
 
@@ -162,6 +179,9 @@ if(isset($_POST['docsub1']))
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="logout1.php"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="account-details.php<?php echo "?table=patreg&page=adminpanel1.php&id=" . $admin_id ?>"><i class="fa fa-user" aria-hidden="true"></i>Edit Account Details</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"></a>

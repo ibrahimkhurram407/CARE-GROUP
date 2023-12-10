@@ -218,6 +218,9 @@ function get_specs(){
                     <a class="nav-link" href="logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="account-details.php<?php echo "?table=patreg&page=adminpanel.php&id=" . $pid ?>"><i class="fa fa-user" aria-hidden="true"></i>Edit Account Details</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#"></a>
                 </li>
             </ul>

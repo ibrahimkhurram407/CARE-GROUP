@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admintb` (
+  `id` int(2) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

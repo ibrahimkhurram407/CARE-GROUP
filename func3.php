@@ -13,6 +13,9 @@ if(isset($_POST['adsub'])){
 	$result=mysqli_query($con,$query);
 	if(mysqli_num_rows($result)==1)
 	{
+		$row = mysqli_fetch_assoc($result);
+		$admin_id = $row['id'];
+		$_SESSION['id'] = $admin_id;
 		$_SESSION['username']=$username;
 		header("Location:admin-panel1.php");
 	}

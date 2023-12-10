@@ -2,9 +2,27 @@
 <?php 
 include('func1.php');
 include('./include/config.php');
+#session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 $doctor = $_SESSION['dname'];
+if (isset($_SESSION['dID'])) {
+  $doctor_id = $_SESSION['dID'];
+}else {
+  $id_query = mysqli_connect($con, "SELECT id FROM doctb WHERE doctor = " . $doctor . ";");
+  if ($id_query) {
+    // Fetch the result as an associative array
+    $id_row = mysqli_fetch_assoc($id_query);
+
+    // Access the 'id' column
+    $doctor_id = $id_row['id'];
+
+    // Use $doctor_id as needed
+    echo "Doctor ID: $doctor_id";
+  } else {
+    echo "Error: " . mysqli_error($con);
+  }
+}
 
 // Query for Appointments
 $check_query_appointments = mysqli_query($con, "SELECT * FROM appointmenttb WHERE doctor = '$doctor'");
@@ -112,6 +130,9 @@ if(isset($_GET['cancel']))
        <li class="nav-item">
         <a class="nav-link" href="logout1.php"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="account-details.php<?php echo "?table=doctb&page=doctor-panel.php&id=" . $doctor_id?>"><i class="fa fa-user" aria-hidden="true"></i>Edit Account Details</a>
+      </li>
        <li class="nav-item">
         <a class="nav-link" href="#"></a>
       </li>
@@ -141,6 +162,10 @@ if(isset($_GET['cancel']))
   </div>
   <div class="col-md-8" style="margin-top: 3%;">
     <div class="tab-content" id="nav-tabContent" style="width: 950px;">
+
+
+
+
       <div class="tab-pane fade show active" id="list-dash" role="tabpanel" aria-labelledby="list-dash-list">
         
               <div class="container-fluid container-fullw bg-white" >
@@ -301,7 +326,6 @@ if(isset($_GET['cancel']))
                   <?php 
 
                     include('include/config.php');
-                    global $con;
 
                     $query = "select pid,fname,lname,ID,appdate,disease,allergy,prescription from prestb where doctor='$doctor';";
                     
