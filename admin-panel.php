@@ -13,6 +13,27 @@ include('./include/config.php');
   $lname = $_SESSION['lname'];
   $contact = $_SESSION['contact'];
 
+// Query for Appointments
+$check_query_appointments = mysqli_query($con, "SELECT * FROM appointmenttb WHERE fname = '$fname' AND lname = '$lname'");
+
+if ($check_query_appointments === false) {
+    // Handle the error, print it for debugging purposes
+    echo "Error in Appointments query: " . mysqli_error($con);
+} else {
+    // Successful query, proceed
+    $AmountOfAppointments = mysqli_num_rows($check_query_appointments);
+}
+
+// Query for Prescriptions
+$check_query_prescriptions = mysqli_query($con, "SELECT * FROM prestb WHERE fname = '$fname' AND lname = '$lname'");
+
+if ($check_query_prescriptions === false) {
+    // Handle the error, print it for debugging purposes
+    echo "Error in Prescriptions query: " . mysqli_error($con);
+} else {
+    // Successful query, proceed
+    $AmountOfPrescriptions = mysqli_num_rows($check_query_prescriptions);
+}
 
 
   if (isset($_POST['app-submit'])) {
@@ -268,7 +289,7 @@ button:hover {
 
                                                 <p class="cl-effect-1">
                                                     <a href="#app-hist" onclick="clickDiv('#list-pat-list')">
-                                                        View Appointment History
+                                                        View Appointment History (<?php echo $AmountOfAppointments; ?>)
                                                     </a>
                                                 </p>
                                         </div>
@@ -286,7 +307,7 @@ button:hover {
 
                                             <p class="cl-effect-1">
                                                 <a href="#list-pres" onclick="clickDiv('#list-pres-list')">
-                                                    View Prescription List
+                                                    View Prescription List (<?php echo $AmountOfPrescriptions; ?>)
                                                 </a>
                                             </p>
                                     </div>
@@ -311,7 +332,6 @@ button:hover {
                                               $query = "SELECT id, username, city, spec, docFees FROM doctb";
                                               $result = mysqli_query($con, $query);
                                               $data = array();
-
                                               // Check if there are results
                                               if ($result->num_rows > 0) {
                                                   // Fetch each row and add it to the array

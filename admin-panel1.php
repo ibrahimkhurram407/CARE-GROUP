@@ -4,6 +4,50 @@ include('./include/config.php');
 
 include('newfunc.php');
 
+// Query for Appointments
+$check_query_appointments = mysqli_query($con, "SELECT * FROM appointmenttb;");
+
+if ($check_query_appointments === false) {
+    // Handle the error, print it for debugging purposes
+    echo "Error in Appointments query: " . mysqli_error($con);
+} else {
+    // Successful query, proceed
+    $AmountOfAppointments = mysqli_num_rows($check_query_appointments);
+}
+
+// Query for Prescriptions
+$check_query_prescriptions = mysqli_query($con, "SELECT * FROM prestb;");
+
+if ($check_query_prescriptions === false) {
+    // Handle the error, print it for debugging purposes
+    echo "Error in Prescriptions query: " . mysqli_error($con);
+} else {
+    // Successful query, proceed
+    $AmountOfPrescriptions = mysqli_num_rows($check_query_prescriptions);
+}
+
+// Query for Doctors
+$check_query_prescriptions = mysqli_query($con, "SELECT * FROM doctb;");
+
+if ($check_query_prescriptions === false) {
+    // Handle the error, print it for debugging purposes
+    echo "Error in Prescriptions query: " . mysqli_error($con);
+} else {
+    // Successful query, proceed
+    $AmountOfDoctors = mysqli_num_rows($check_query_prescriptions);
+}
+
+// Query for Patients
+$check_query_prescriptions = mysqli_query($con, "SELECT * FROM patreg;");
+
+if ($check_query_prescriptions === false) {
+    // Handle the error, print it for debugging purposes
+    echo "Error in Prescriptions query: " . mysqli_error($con);
+} else {
+    // Successful query, proceed
+    $AmountOfPatients = mysqli_num_rows($check_query_prescriptions);
+}
+
 if(isset($_POST['docsub']))
 {
   $doctor=$_POST['doctor'];
@@ -179,7 +223,7 @@ button:hover {
                                             <span class="fa-stack fa-2x"> <i
                                                     class="fa fa-square fa-stack-2x text-primary"></i> <i
                                                     class="fa fa-users fa-stack-1x fa-inverse"></i> </span>
-                                            <h4 class="StepTitle" style="margin-top: 5%;">Doctor List</h4>
+                                            <h4 class="StepTitle" style="margin-top: 5%;">Doctor List (<?php echo $AmountOfDoctors; ?>)</h4>
                                             <script>
                                             function clickDiv(id) {
                                                 document.querySelector(id).click();
@@ -200,7 +244,7 @@ button:hover {
                                             <span class="fa-stack fa-2x"> <i
                                                     class="fa fa-square fa-stack-2x text-primary"></i> <i
                                                     class="fa fa-users fa-stack-1x fa-inverse"></i> </span>
-                                            <h4 class="StepTitle" style="margin-top: 5%;">Patient List</h4>
+                                            <h4 class="StepTitle" style="margin-top: 5%;">Patient List (<?php echo $AmountOfPatients; ?>)</h4>
 
                                             <p class="cl-effect-1">
                                                 <a href="#app-hist" onclick="clickDiv('#list-pat-list')">
@@ -218,7 +262,7 @@ button:hover {
                                             <span class="fa-stack fa-2x"> <i
                                                     class="fa fa-square fa-stack-2x text-primary"></i> <i
                                                     class="fa fa-paperclip fa-stack-1x fa-inverse"></i> </span>
-                                            <h4 class="StepTitle" style="margin-top: 5%;">Appointment Details</h4>
+                                            <h4 class="StepTitle" style="margin-top: 5%;">Appointment Details (<?php echo $AmountOfAppointments; ?>)</h4>
 
                                             <p class="cl-effect-1">
                                                 <a href="#app-hist" onclick="clickDiv('#list-app-list')">
@@ -237,7 +281,7 @@ button:hover {
                                             <span class="fa-stack fa-2x"> <i
                                                     class="fa fa-square fa-stack-2x text-primary"></i> <i
                                                     class="fa fa-list-ul fa-stack-1x fa-inverse"></i> </span>
-                                            <h4 class="StepTitle" style="margin-top: 5%;">Prescription List</h4>
+                                            <h4 class="StepTitle" style="margin-top: 5%;">Prescription List (<?php echo $AmountOfPrescriptions; ?>)</h4>
 
                                             <p class="cl-effect-1">
                                                 <a href="#list-pres" onclick="clickDiv('#list-pres-list')">

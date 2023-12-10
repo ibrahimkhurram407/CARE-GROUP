@@ -5,6 +5,29 @@ include('./include/config.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 $doctor = $_SESSION['dname'];
+
+// Query for Appointments
+$check_query_appointments = mysqli_query($con, "SELECT * FROM appointmenttb WHERE doctor = '$doctor'");
+
+if ($check_query_appointments === false) {
+    // Handle the error, print it for debugging purposes
+    echo "Error in Appointments query: " . mysqli_error($con);
+} else {
+    // Successful query, proceed
+    $AmountOfAppointments = mysqli_num_rows($check_query_appointments);
+}
+
+// Query for Prescriptions
+$check_query_prescriptions = mysqli_query($con, "SELECT * FROM prestb WHERE doctor = '$doctor'");
+
+if ($check_query_prescriptions === false) {
+    // Handle the error, print it for debugging purposes
+    echo "Error in Prescriptions query: " . mysqli_error($con);
+} else {
+    // Successful query, proceed
+    $AmountOfPrescriptions = mysqli_num_rows($check_query_prescriptions);
+}
+
 if(isset($_GET['cancel']))
   {
     $query=mysqli_query($con,"update appointmenttb set doctorStatus='0' where ID = '".$_GET['ID']."'");
@@ -135,7 +158,7 @@ if(isset($_GET['cancel']))
                       </script>                      
                       <p class="links cl-effect-1">
                         <a href="#list-app" onclick="clickDiv('#list-app-list')">
-                          Appointment List
+                          Appointment List (<?php echo $AmountOfAppointments; ?>)
                         </a>
                       </p>
                     </div>
@@ -150,7 +173,7 @@ if(isset($_GET['cancel']))
                         
                       <p class="links cl-effect-1">
                         <a href="#list-pres" onclick="clickDiv('#list-pres-list')">
-                          Prescription List
+                          Prescription List (<?php echo $AmountOfPrescriptions; ?>)
                         </a>
                       </p>
                     </div>
