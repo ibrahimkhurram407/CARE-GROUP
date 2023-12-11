@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php 
-include('func1.php');
+include('doctorLoginFunc.php');
 include('./include/config.php');
 #session_start();
 error_reporting(E_ALL);

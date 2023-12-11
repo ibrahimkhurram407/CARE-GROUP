@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-include('func1.php');
+include('doctorLoginFunc.php');
 $pid='';
 $ID='';
 $appdate='';

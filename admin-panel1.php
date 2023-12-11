@@ -3,12 +3,12 @@
 include('./include/config.php');
 
 include('newfunc.php');
-
+session_start();
 $admin_user = $_SESSION['username'];
 if (isset($_SESSION['id'])) {
     $admin_id = $_SESSION['id'];
 }else {
-    $id_query = mysqli_connect($con, "SELECT id FROM admintb WHERE username = " . $admin_user . ";");
+    $id_query = mysqli_query($con, "SELECT id FROM admintb WHERE username = " . $admin_user . ";");
   if ($id_query) {
     // Fetch the result as an associative array
     $id_row = mysqli_fetch_assoc($id_query);
@@ -94,8 +94,6 @@ if(isset($_POST['docsub1']))
     echo "<script>alert('Unable to delete!');</script>";
   }
 }
-
-
 ?>
 <html lang="en">
 
@@ -210,7 +208,7 @@ button:hover {
                     <a class="list-group-item list-group-item-action active" id="list-dash-list" data-toggle="list"
                         href="#list-dash" role="tab" aria-controls="home">Dashboard</a>
                     <a class="list-group-item list-group-item-action" href="#list-doc" id="list-doc-list" role="tab"
-                        aria-controls="home" data-toggle="list">Doctor List</a>
+                        aria-controls="home" data-toggle="list">Doctors List</a>
                     <a class="list-group-item list-group-item-action" href="#list-pat" id="list-pat-list" role="tab"
                         data-toggle="list" aria-controls="home">Patient List</a>
                     <a class="list-group-item list-group-item-action" href="#list-app" id="list-app-list" role="tab"
