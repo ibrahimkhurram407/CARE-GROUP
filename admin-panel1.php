@@ -4,6 +4,9 @@ include('./include/config.php');
 
 include('newfunc.php');
 session_start();
+if (!isset($_SESSION['username'])) {
+    die('You are not Authorized');
+}
 $admin_user = $_SESSION['username'];
 if (isset($_SESSION['id'])) {
     $admin_id = $_SESSION['id'];
@@ -176,7 +179,7 @@ if(isset($_POST['docsub1']))
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="logout1.php"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
+                    <a class="nav-link" href="logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="account-details.php<?php echo "?table=patreg&page=adminpanel1.php&id=" . $admin_id ?>"><i class="fa fa-user" aria-hidden="true"></i>Edit Account Details</a>
