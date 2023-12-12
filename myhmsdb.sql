@@ -87,7 +87,6 @@ CREATE TABLE `contact` (
 
 INSERT INTO `contact` (`name`, `email`, `contact`, `message`) VALUES
 ('dum', 'dum@gmail.com', '7896677554', 'Hey Admin');
-
 -- --------------------------------------------------------
 
 --
@@ -107,6 +106,7 @@ CREATE TABLE `doctb` (
 --
 -- Dumping data for table `doctb`
 --
+
 
 INSERT INTO `doctb` (`username`, `password`, `email`, `city`, `spec`, `docFees`) VALUES
 ('zain', 'zain123', 'zain@gmail.com', 'karachi', 'chiropractor', 500),

@@ -4,6 +4,10 @@ include('func.php');
 include('newfunc.php');
 include('./include/config.php');
 
+if (!(isset($_SESSION['pid'], $_SESSION['username'], $_SESSION['email'], $_SESSION['fname'], $_SESSION['lname'], $_SESSION['contact']))){
+    header("location: ./login.php");
+    die("You are not authorised");
+}
 
   $pid = $_SESSION['pid'];
   $username = $_SESSION['username'];
@@ -661,6 +665,9 @@ button:hover {
 
                     <div class="tab-pane fade" id="list-pres" role="tabpanel" aria-labelledby="list-pres-list">
 
+                        
+                        <div class="unique-table">
+                        <h4>Prescription History</h4>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -718,7 +725,7 @@ button:hover {
                     ?>
                             </tbody>
                         </table>
-                        <br>
+                        </div>
                     </div>
 
 

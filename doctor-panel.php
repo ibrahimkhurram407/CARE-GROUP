@@ -312,7 +312,6 @@ if(isset($_GET['cancel']))
                   <tr>
                     
                     <th scope="col">Patient ID</th>
-                    
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Appointment ID</th>
