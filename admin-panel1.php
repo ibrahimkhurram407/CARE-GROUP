@@ -5,6 +5,7 @@ include('./include/config.php');
 include('newfunc.php');
 session_start();
 if (!isset($_SESSION['username'])) {
+    header("location: ./index.php");
     die('You are not Authorized');
 }
 $admin_user = $_SESSION['username'];

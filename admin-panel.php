@@ -5,7 +5,7 @@ include('newfunc.php');
 include('./include/config.php');
 
 if (!(isset($_SESSION['pid'], $_SESSION['username'], $_SESSION['email'], $_SESSION['fname'], $_SESSION['lname'], $_SESSION['contact']))){
-    header("location: ./login.php");
+    header("location: ./index.php");
     die("You are not authorised");
 }
 

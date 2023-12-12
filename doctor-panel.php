@@ -5,6 +5,10 @@ include('./include/config.php');
 #session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+if (isset($_SESSION['dname'])) {
+  header("location: ./index.php");
+  die("You are not authorised");
+}
 $doctor = $_SESSION['dname'];
 if (isset($_SESSION['dID'])) {
   $doctor_id = $_SESSION['dID'];

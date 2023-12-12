@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admintb` (
   `id` int(2) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL UNIQUE,
   `password` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -95,9 +95,9 @@ INSERT INTO `contact` (`name`, `email`, `contact`, `message`) VALUES
 
 CREATE TABLE `doctb` (
   `id` int PRIMARY Key  AUTO_INCREMENT NOT NULL,
-  `username` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL UNIQUE,
   `password` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL UNIQUE,
   `city` varchar(30) NOT NULL,
   `spec` varchar(50) NOT NULL,
   `docFees` int(10) NOT NULL
@@ -173,11 +173,13 @@ CREATE TABLE `patreg` (
   `fname` varchar(20) NOT NULL,
   `lname` varchar(20) NOT NULL,
   `gender` varchar(10) NOT NULL,
-  `email` varchar(30) NOT NULL,
+  `email` varchar(30) NOT NULL UNIQUE, -- Add UNIQUE constraint for email
   `contact` varchar(10) NOT NULL,
   `password` varchar(30) NOT NULL,
-  `cpassword` varchar(30) NOT NULL
+  `cpassword` varchar(30) NOT NULL,
+  UNIQUE KEY `unique_email` (`email`) -- Optional: Naming the unique constraint
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 --
 -- Dumping data for table `patreg`
